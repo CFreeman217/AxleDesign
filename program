@@ -240,8 +240,10 @@ class trailer:
                 "\nAxle Loading (total) = " + str(trailer_1.axleLoad) + "lbs." + \
                 "\nForce at each wheel = " + str(trailer_1.axleLoad/2) + "lbs." + \
                 "\nFile Name = " + file_name
-            log_name = ("AxleFBD_log_" + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "_" + str(now.second))
-
+            log_name = ("AxleFBD_log_" + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "_" + str(now.second) + ".txt")
+            file = open(log_name,'w')
+            file.write(saveString)
+            file.close()
             display.getcanvas().postscript(file=file_name)
         display.exitonclick()
 
