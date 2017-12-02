@@ -1,6 +1,4 @@
-x# -*- coding: utf-8 -*-
-import datetime
-from datetime import datetime, date, time
+# -*- coding: utf-8 -*-
 
 import turtle
 from turtle import *
@@ -8,6 +6,8 @@ from turtle import *
 import tkinter
 from tkinter import *
 
+import datetime
+from datetime import datetime, date, time
 now = datetime.now()
 
 """
@@ -49,7 +49,7 @@ class trailer:
         
         # self.totalLoad = 2500
         # self.boatLength = 20
-        self.trailDist = 5
+        self.trailDist = 4
         self.tireDiam = 20.5
         self.slProp = .66
         self.smDist = .66
@@ -64,7 +64,8 @@ class trailer:
         # self.smDist = float(input("\nSkid mount spacing proportion (between .5 and .75) =  "))
         # self.twProp = float(input("\nTongue Weight proportion (.09-.15, use .10) =  "))
         self.FOS = float(input("\nEnter Factor of Safety (1.7 - 2.5) =  "))
-        self.wheelWidth = float(input("\nEnter Wheel width for 98 in. hub to hub zero offset centered: (between 4-6in) "))
+        # self.wheelWidth = float(input("\nEnter Wheel width for 98 in. hub to hub zero offset centered: (between 4-6in) "))
+        self.wheelWidth = 6
         self.save = input("Save diagram after generating (y/n) : ")
 
         self.capacity = ((self.totalLoad) * (self.FOS))
@@ -168,7 +169,19 @@ class trailer:
         write(round(self.skidMountLoad,2),font=("Arial",10,"bold"));ht()
         if self.save == "y":
             file_name = ("TrailerFBD_Graph_" + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "_" + str(now.second))
-            
+            saveString = "Boat Length = " + inch_2_foot(trailer_1.boatLength) + \
+                "\nTrailer Length = " + inch_2_foot(trailer_1.trailLength) + \
+                "\nBoat Weight = " + str(trailer_1.totalLoad) + " lbs." + \
+                "\nFactor of Safety = " + str(trailer_1.FOS) + \
+                "\nMax. Static Loading = " + str(trailer_1.capacity) + "lbs." + \
+                "\nTongue weight = " + str(trailer_1.tongueLoad) + "lbs." + \
+                "\nAxle Loading (total) = " + str(trailer_1.axleLoad) + "lbs." + \
+                "\nForce at each wheel = " + str(trailer_1.axleLoad/2) + "lbs." + \
+                "\nFile Name = " + file_name
+            log_name = ("TrailerFBD_log_" + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "_" + str(now.second) + ".txt")
+            file = open(log_name,'w')
+            file.write(saveString)
+            file.close()
             display.getcanvas().postscript(file=file_name)
         display.exitonclick()
 
@@ -218,7 +231,17 @@ class trailer:
 
         if self.save == "y":
             file_name = ("AxleFBD_Graph_" + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "_" + str(now.second))
-            
+            saveString = "Boat Length = " + inch_2_foot(trailer_1.boatLength) + \
+                "\nTrailer Length = " + inch_2_foot(trailer_1.trailLength) + \
+                "\nBoat Weight = " + str(trailer_1.totalLoad) + " lbs." + \
+                "\nFactor of Safety = " + str(trailer_1.FOS) + \
+                "\nMax. Static Loading = " + str(trailer_1.capacity) + "lbs." + \
+                "\nTongue weight = " + str(trailer_1.tongueLoad) + "lbs." + \
+                "\nAxle Loading (total) = " + str(trailer_1.axleLoad) + "lbs." + \
+                "\nForce at each wheel = " + str(trailer_1.axleLoad/2) + "lbs." + \
+                "\nFile Name = " + file_name
+            log_name = ("AxleFBD_log_" + str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "_" + str(now.second))
+
             display.getcanvas().postscript(file=file_name)
         display.exitonclick()
 
@@ -238,8 +261,24 @@ def dnarrow(value,ldr_hgt):
     pd();fd(ldr_hgt);rt(150);fd(10);rt(120);fd(10);rt(120);fd(10);lt(30);pu();fd(25);lt(90)
     write(value,font=("Arial",15,"bold"))
 
-drawType = input("Draw Trailer or Axle FBD, (enter 't' or 'a') : ")
+def inch_2_foot(in_inch):
+    out_feet, footfrac = divmod(in_inch/12,1)
+    out_inch = in_inch - (out_feet * 12)
+    out_string = " " + str(out_feet) + "-ft.  " + str(out_inch) + "-in. "
+    return out_string
+
 trailer_1 = trailer()
+saveString = "Boat Length = " + inch_2_foot(trailer_1.boatLength) + \
+                "\nTrailer Length = " + inch_2_foot(trailer_1.trailLength) + \
+                "\nBoat Weight = " + str(trailer_1.totalLoad) + " lbs." + \
+                "\nFactor of Safety = " + str(trailer_1.FOS) + \
+                "\nMax. Static Loading = " + str(trailer_1.capacity) + "lbs." + \
+                "\nTongue weight = " + str(trailer_1.tongueLoad) + "lbs." + \
+                "\nAxle Loading (total) = " + str(trailer_1.axleLoad) + "lbs." + \
+                "\nForce at each wheel = " + str(trailer_1.axleLoad/2) + "lbs."
+
+drawType = input("FBD:\nDraw Trailer or Axle? (enter 't' or 'a') : ")
+
 if drawType == "a":
     trailer_1.draw_axle()
 elif drawType == "t":
