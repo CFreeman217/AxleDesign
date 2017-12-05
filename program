@@ -55,6 +55,7 @@ class trailer:
         self.smDist = .66
         self.twProp = .1
         # self.FOS = 1.7
+        self.wheelWidth = 6
         
         self.totalLoad = float(input("\nEnter Load Weight (lbs)=  "))
         self.boatLength = float(input("\nEnter Boat Length (feet) =  "))
@@ -65,7 +66,6 @@ class trailer:
         # self.twProp = float(input("\nTongue Weight proportion (.09-.15, use .10) =  "))
         self.FOS = float(input("\nEnter Factor of Safety (1.7 - 2.5) =  "))
         # self.wheelWidth = float(input("\nEnter Wheel width for 98 in. hub to hub zero offset centered: (between 4-6in) "))
-        self.wheelWidth = 6
         self.save = input("Save diagram after generating (y/n) : ")
 
         self.capacity = ((self.totalLoad) * (self.FOS))
